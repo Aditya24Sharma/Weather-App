@@ -1,0 +1,10 @@
+- route decorators are used to route to a certain function
+
+- 'flask --app app.py --debug run' to run in debug mode and view the live changes made.
+--- The above statement can be replaced by setting FLASK_APP environment variable which is used to specicy how to load the application. We can set that as follows:
+# In Unix bash
+'''export FLASK_APP={your python file to run}'''
+
+- cached the data and store it for an hour to prevent sending requests for same data.
+
+-useEffect hook takes two arguments. The first function that it runs when the component mounts. Then, the array conatins the dependencies to when to rerender the components. 
