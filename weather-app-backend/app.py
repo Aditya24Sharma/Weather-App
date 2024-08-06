@@ -1,6 +1,5 @@
-from flask import Flask, jsonify, redirect, url_for
-import requests
-from getWeather import get_weather_response, hourly_forecast_df
+from flask import Flask,redirect, url_for
+from utils import get_weather_response, hourly_forecast_df, get_location_info
 
 #creating an instance of the Flask class '__name__' so that Flask knows where to look for resources such as template and static files
 app = Flask(__name__)
@@ -20,7 +19,14 @@ def redirect_to_home():
 
 @app.route('/home')
 def home():
-    response = get_weather_response(42.4,-71.05)
+    zip_code = 39406
+    location_info = get_location_info(zip_code)
+    longitude = location_info['longitude']
+    latitude = location_info['latitude']
+    timezone = location_info['standard_timezone']
+    city_name = location_info['primary_city']
+
+    response = get_weather_response(latitude, longitude)
     current = response.Current()
     current_temperature_2m = current.Variables(0).Value()
     current_apparent_temperature = current.Variables(1).Value()
@@ -28,15 +34,16 @@ def home():
     current_precipitation = current.Variables(3).Value()
     current_weather_code = current.Variables(4).Value()
 
-    print(f"Current time {current.Time()}")
-    print(f"Current temperature_2m {current_temperature_2m}")
-    print(f"Current apparent_temperature {current_apparent_temperature}")
-    print(f"Current is_day {current_is_day}")
-    print(f"Current precipitation {current_precipitation}")
-    print(f"Current weather_code {current_weather_code}")
+    # print(f"Current time {current.Time()}")
+    # print(f"Current temperature_2m {current_temperature_2m}")
+    # print(f"Current apparent_temperature {current_apparent_temperature}")
+    # print(f"Current is_day {current_is_day}")
+    # print(f"Current precipitation {current_precipitation}")
+    # print(f"Current weather_code {current_weather_code}")
 
     # return f'<p>The current weather is {current_temperature_2m:.2f}</p>'
-    return {"current_temp": int(current_temperature_2m)}
+    return {"current_temp": int(current_temperature_2m),
+            "time": current.Time()}
 
 
 @app.route('/hourly')
