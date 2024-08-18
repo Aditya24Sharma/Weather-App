@@ -5,7 +5,7 @@ import os
 #Description: Take zip code and returns info about that location after querying through the dataset
 #return : dictionary (zip,type,primary_city,state,county,standard_timezone,place_timezone,area_codes,latitude,longitude)
 
-def get_location_info(zip_code = 39406):
+def get_location_info(zip_code = 1010):
     file_path = 'Zip_codes_with_location.csv'
     abs_file_path = os.path.normpath(file_path)
     query = f"""

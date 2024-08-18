@@ -1,5 +1,5 @@
-from flask import Flask,redirect, url_for
-from utils import get_weather_response, hourly_forecast_df, get_location_info
+from flask import Flask,redirect, url_for, request
+from utils import get_weather_response, hourly_forecast_df, get_location_info, current_time
 
 #creating an instance of the Flask class '__name__' so that Flask knows where to look for resources such as template and static files
 app = Flask(__name__)
@@ -17,13 +17,16 @@ app = Flask(__name__)
 def redirect_to_home():
     return redirect(url_for('home'))
 
-@app.route('/home')
+@app.route('/home', methods = ['GET'])
 def home():
-    zip_code = 39406
+    zip_code = request.args.get('zipcode') or 39406
+    print(zip_code)
+    # zip_code = int('1010')
     location_info = get_location_info(zip_code)
     longitude = location_info['longitude']
     latitude = location_info['latitude']
     timezone = location_info['standard_timezone']
+    locationTime = current_time(location_info['place_timezone'])
     city_name = location_info['primary_city']
 
     response = get_weather_response(latitude, longitude)
@@ -43,7 +46,7 @@ def home():
 
     # return f'<p>The current weather is {current_temperature_2m:.2f}</p>'
     return {"current_temp": int(current_temperature_2m),
-            "time": current.Time()}
+            "time": str(locationTime)}
 
 
 @app.route('/hourly')

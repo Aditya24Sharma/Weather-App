@@ -28,3 +28,6 @@ __pycache__/
 
 #ignore  SQLite database files 
 *.sqlite
+
+#node modules
+node_modules/

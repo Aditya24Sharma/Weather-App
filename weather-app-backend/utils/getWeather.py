@@ -18,8 +18,8 @@ def get_weather_response(latitude = 52.54, longitude = 13.41):
     openmeteo = openmeteo_requests.Client(session = session)
     url = "https://api.open-meteo.com/v1/forecast"
     params = {
-        "latitude": 42.4084,
-        "longitude": -71.0537,
+        "latitude": latitude,
+        "longitude": longitude,
         "current": ["temperature_2m", "apparent_temperature", "is_day", "precipitation", "rain"],
         "hourly": ["temperature_2m", "apparent_temperature", "precipitation_probability", "weather_code"],
         "daily": ["weather_code", "temperature_2m_max", "sunrise", "sunset"],
