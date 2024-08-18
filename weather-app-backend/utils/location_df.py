@@ -21,5 +21,8 @@ def get_location_info(zip_code = 1010):
     # print(location_dict['county'])
     return location_dict
 
+def get_image(isday, weather_code):
+    print(f"Weather Code: {weather_code}, is Day: {isday}")
+
 if __name__ == '__main__':
     get_location_info()
