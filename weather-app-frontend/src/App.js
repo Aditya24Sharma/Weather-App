@@ -56,11 +56,14 @@ function App(){
 
 
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col
+    rounded-xl
+    mx-auto mt-12 w-96
+    ring-4 ring-gray-500 ring-inset shadow-xl">
       {/* <form onSubmit={() => backend_fetch(currentZipCode)}> */}
         <div className= "flex flex-row mt-6 mx-auto" id = "Input-container">
           <input type='text' placeholder='Zip Code'  onChange={handleInputChange}
-          className = "bg-gray-100 p-1 rounded-md" />
+          className = "bg-white p-1 rounded-md ring-1 ring-gray-400" />
           <button type='submit' onClick={() => backend_fetch(currentZipCode)} 
           className = "inline items-center max-content bg-blue-400 text-black rounded-md p-1 ml-2 hover:text-white">
                         Click me</button>
