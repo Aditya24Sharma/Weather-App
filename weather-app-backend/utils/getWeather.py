@@ -23,7 +23,8 @@ def get_weather_response(latitude = 52.54, longitude = 13.41):
         "current": ["temperature_2m", "apparent_temperature", "is_day", "precipitation", "rain"],
         "hourly": ["temperature_2m", "apparent_temperature", "precipitation_probability", "weather_code"],
         "daily": ["weather_code", "temperature_2m_max", "sunrise", "sunset"],
-        "forecast_days": 1
+        # "forecast_days": 1,
+        "temperature_unit": "fahrenheit",
     }   
     responses = openmeteo.weather_api(url, params = params)
 

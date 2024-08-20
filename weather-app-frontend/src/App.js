@@ -1,4 +1,5 @@
 import React, {useState, useEffect} from 'react'
+import './index.css'
 
 function App(){
   const [currentTemp, setTemp] = useState(0);
@@ -55,17 +56,29 @@ function App(){
 
 
   return (
-    <div>
+    <div className="flex flex-col">
       {/* <form onSubmit={() => backend_fetch(currentZipCode)}> */}
-        <input type='text' placeholder='Zip Code'  onChange={handleInputChange} />
-        <button type='submit' onClick={() => backend_fetch(currentZipCode)}>Click me</button>
+        <div className= "flex flex-row mt-6 mx-auto" id = "Input-container">
+          <input type='text' placeholder='Zip Code'  onChange={handleInputChange}
+          className = "bg-gray-100 p-1 rounded-md" />
+          <button type='submit' onClick={() => backend_fetch(currentZipCode)} 
+          className = "inline items-center max-content bg-blue-400 text-black rounded-md p-1 ml-2 hover:text-white">
+                        Click me</button>
+        </div>
         {/* {currentZipCode} */}
-        <p>Temperature in {currentdata.primary_city}</p>
-        <p>State = {currentdata.state}</p>
-        <p>The current Temp is {currentdata.current_temp}</p>
-        <p>The current Time is {currentdata.time}</p>
+        <div className="inline-flex items-center rounded-md top-9 mt-9
+                        text-center text-green-900 font-semibold text-3xl
+                        bg-green-50 px-2 py-1 mx-auto
+                        border-green-900 
+                        ring-1 ring-inset ring-green-600/20">{currentdata.primary_city}</div>
+        <p className = "mx-auto text-2xl font-bold text-gray-700">{currentdata.state}</p>
+        <p className="mx-auto py-2 px-2 rounded-md
+                    text-black font-semibold text-7xl
+                    bg-gray-100
+                    ring-1 ring-inset ring-black">{currentdata.current_temp}</p>
+        <p className="mx-auto mt-3 text-2xl font-bold text-gray-700">{currentdata.time}</p>
         {/* <img src = {image_location(currentdata.image)}/> */}
-        {currentdata.image && <img src = {getImage(currentdata.image)}/>}
+        {currentdata.image && <img src = {getImage(currentdata.image)} className="mx-auto w-32 h-32"/>}
       {/* </form> */}
     </div>
   )
