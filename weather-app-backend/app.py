@@ -7,7 +7,7 @@ app = Flask(__name__)
 #the decorator registers the function with the given URL
 # "latitude": latitude,
 #     "longitude": longitude,
-#     "current": ["temperature_2m", "apparent_temperature", "is_day", "precipitation", "weather_code"],
+#     "current": ["temperature_2m", "apparent_temperature", "is_day", "precipitation", "weather_code", "rain"],
 #     "hourly": "temperature_2m",
 #     "daily": ["weather_code", "temperature_2m_max", "temperature_2m_min", "apparent_temperature_max", "apparent_temperature_min", "sunrise", "sunset", "precipitation_sum"],
 #     "temperature_unit": "fahrenheit"
@@ -50,6 +50,7 @@ def home():
 
     # return f'<p>The current weather is {current_temperature_2m:.2f}</p>'
     return {"current_temp": int(current_temperature_2m),
+            "current_apparent_temp":int(current_apparent_temperature),
             "time": str(locationTime),
             "primary_city": city_name,
             "state": state,

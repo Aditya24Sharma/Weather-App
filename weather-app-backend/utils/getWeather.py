@@ -7,6 +7,8 @@ import numpy as np
 
 from retry_requests import retry
 
+import datetime
+
 def cache_weather():
     # Setting up the Open-Meteo API client with cache and retry on error
     cache_session = requests_cache.CachedSession('.cache', expire_after=3600)
@@ -20,7 +22,7 @@ def get_weather_response(latitude = 52.54, longitude = 13.41):
     params = {
         "latitude": latitude,
         "longitude": longitude,
-        "current": ["temperature_2m", "apparent_temperature", "is_day", "precipitation", "rain"],
+        "current": ["temperature_2m", "apparent_temperature", "is_day", "precipitation", "weather_code", "rain"],
         "hourly": ["temperature_2m", "apparent_temperature", "precipitation_probability", "weather_code"],
         "daily": ["weather_code", "temperature_2m_max", "sunrise", "sunset"],
         # "forecast_days": 1,
@@ -50,11 +52,12 @@ def hourly_forecast_df(response):
     hourly_data["precipitation_probability"] = hourly_precipitation_probability
     hourly_data["weather_code"] = hourly_weather_code
     hourly_dataframe_pd = pd.DataFrame(data = hourly_data)
+    hourly_dataframe_pd["time_in_hour"] = hourly_dataframe_pd["date"].apply(lambda x: pd.to_datetime(x).to_pydatetime().strftime("%-I %p"))
     # for i in range(1, 5):
     #     print(f"{hourly_dataframe_pd['date'][i]} -> {hourly_dataframe_pd['temperature_2m'][i]}")
     #     print()
-    print(hourly_dataframe_pd.head(5))
-    return hourly_dataframe_pd
+    #Only sending the next 23 hours
+    return hourly_dataframe_pd.head(23)
 
 def daily_forecast(response):
     daily = response.Daily()

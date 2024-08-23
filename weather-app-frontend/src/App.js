@@ -65,8 +65,8 @@ function App(){
           <input type='text' placeholder='Zip Code'  onChange={handleInputChange}
           className = "bg-white p-1 rounded-md ring-1 ring-gray-400" />
           <button type='submit' onClick={() => backend_fetch(currentZipCode)} 
-          className = "inline items-center max-content bg-blue-400 text-black rounded-md p-1 ml-2 hover:text-white">
-                        Click me</button>
+          className = "inline items-center max-content bg-blue-400 text-black rounded-md p-1 ml-2 hover:text-white hover:bg-blue-950">
+                        Search</button>
         </div>
         {/* {currentZipCode} */}
         <div className="inline-flex items-center rounded-md top-9 mt-9
@@ -74,11 +74,12 @@ function App(){
                         bg-green-50 px-2 py-1 mx-auto
                         border-green-900 
                         ring-1 ring-inset ring-green-600/20">{currentdata.primary_city}</div>
-        <p className = "mx-auto text-2xl font-bold text-gray-700">{currentdata.state}</p>
+        <p className = "mx-auto mt-3 text-2xl font-bold text-gray-700">{currentdata.state}</p>
         <p className="mx-auto py-2 px-2 rounded-md
-                    text-black font-semibold text-7xl
-                    bg-gray-100
-                    ring-1 ring-inset ring-black">{currentdata.current_temp}</p>
+                    text-gray-700 font-semibold text-7xl">{currentdata.current_temp}</p>
+        <p id="feels_like" className="mx-auto text-gray-400">feels like 
+          <span className="font-semibold text-2xl text-gray-600"> {currentdata.current_apparent_temp}</span>
+        </p>
         <p className="mx-auto mt-3 text-2xl font-bold text-gray-700">{currentdata.time}</p>
         {/* <img src = {image_location(currentdata.image)}/> */}
         {currentdata.image && <img src = {getImage(currentdata.image)} className="mx-auto w-32 h-32"/>}
