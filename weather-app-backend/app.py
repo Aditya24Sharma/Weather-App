@@ -1,5 +1,5 @@
-from flask import Flask,redirect, url_for, request, jsonify
-from utils import get_weather_response, hourly_forecast_df, get_location_info, current_time, checkZipCode
+from flask import Flask,redirect, url_for, request, jsonify, session
+from utils import get_weather_response, hourly_forecast_df, get_location_info, current_time, checkZipCode, getDailyForecast
 
 #creating an instance of the Flask class '__name__' so that Flask knows where to look for resources such as template and static files
 app = Flask(__name__)
@@ -19,13 +19,15 @@ def redirect_to_home():
 
 @app.route('/home', methods = ['GET'])
 def home():
-    zip_code = request.args.get('zipcode') or 39406 #for default value
+    zip_code = request.args.get('zipcode') or 39406 #for default value 
     print(zip_code)
 
     #checking if the zip code exists
     if not(checkZipCode(zip_code)):
         return {"error": "Invalid Zip Code. Enter US Zip Code."}, 400
-
+    
+    #creating a constant zipcode for the session
+    session['zip_code'] = zip_code
     location_info = get_location_info(zip_code)
     longitude = location_info['longitude']
     latitude = location_info['latitude']
@@ -36,6 +38,7 @@ def home():
     state = location_info['state']
 
     response = get_weather_response(latitude, longitude)
+    session['response'] = response
     current = response.Current()
     current_temperature_2m = current.Variables(0).Value()
     current_apparent_temperature = current.Variables(1).Value()
@@ -81,7 +84,12 @@ def hourly_weather():
 
 @app.route('/daily_forecast')
 def daily_forecast():
-    response = request.args.get
+    zip_code = session.get('zip_code')
+    response = session.get('response')
+    daily_forecast = getDailyForecast(response)
+
+    return 0
+    
 
 
 if __name__== '__main__':
