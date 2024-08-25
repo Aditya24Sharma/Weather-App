@@ -57,7 +57,7 @@ def hourly_forecast_df(response):
     #     print(f"{hourly_dataframe_pd['date'][i]} -> {hourly_dataframe_pd['temperature_2m'][i]}")
     #     print()
     #Only sending the next 23 hours
-    return hourly_dataframe_pd.head(23)
+    return hourly_dataframe_pd.head(23).to_dict("list")
 
 def daily_forecast(response):
     daily = response.Daily()

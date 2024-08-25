@@ -1,4 +1,4 @@
-from flask import Flask,redirect, url_for, request
+from flask import Flask,redirect, url_for, request, jsonify
 from utils import get_weather_response, hourly_forecast_df, get_location_info, current_time, checkZipCode
 
 #creating an instance of the Flask class '__name__' so that Flask knows where to look for resources such as template and static files
@@ -60,11 +60,16 @@ def home():
             "state": state,
             "county": county,
             "zip_code": zip_code,
-            "image": f'{int(current_weather_code)}_{day_night}'}
+            "image": f'{int(current_weather_code)}_{day_night}',
+            "time_of_day": day_night,
+            "weather_code": current_weather_code,
+            "location": (latitude, longitude),}
+
 
 
 @app.route('/hourly')
 def hourly_weather():
+
     response = get_weather_response(42.4,-71.05)
     hourly_forecast = hourly_forecast_df(response)
     output = '<p>'
@@ -72,7 +77,11 @@ def hourly_weather():
         output += f"<p>{hourly_forecast['date'][i]} -> {hourly_forecast['temperature_2m'][i]}" + '</p>' 
 
     # return output
-    return {'first_hour': int(hourly_forecast['temperature_2m'][1])}
+    return {"hourly": hourly_forecast}
+
+@app.route('/daily_forecast')
+def daily_forecast():
+    response = request.args.get
 
 
 if __name__== '__main__':
