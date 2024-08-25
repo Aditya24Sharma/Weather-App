@@ -9,6 +9,8 @@ from retry_requests import retry
 
 import datetime
 
+from collections import OrderedDict
+
 def cache_weather():
     # Setting up the Open-Meteo API client with cache and retry on error
     cache_session = requests_cache.CachedSession('.cache', expire_after=3600)
@@ -24,7 +26,7 @@ def get_weather_response(latitude = 52.54, longitude = 13.41):
         "longitude": longitude,
         "current": ["temperature_2m", "apparent_temperature", "is_day", "precipitation", "weather_code", "rain"],
         "hourly": ["temperature_2m", "apparent_temperature", "precipitation_probability", "weather_code"],
-        "daily": ["weather_code", "temperature_2m_max", "sunrise", "sunset"],
+        "daily": ["weather_code", "temperature_2m_max","temperature_2m_min" ,"sunrise", "sunset"],
         # "forecast_days": 1,
         "temperature_unit": "fahrenheit",
     }   
@@ -59,31 +61,8 @@ def hourly_forecast_df(response):
     #Only sending the next 23 hours
     return hourly_dataframe_pd.head(23).to_dict("list")
 
-def daily_forecast(response):
-    daily = response.Daily()
-    daily_weather_code = daily.Variables(0).ValuesAsNumpy()
-    daily_temperature_2m_max = daily.Variables(1).ValuesAsNumpy()
-    daily_sunrise = daily.Variables(2).ValuesAsNumpy()
-    daily_sunset = daily.Variables(3).ValuesAsNumpy()
-
-    daily_data = {"date": pd.date_range(
-        start = pd.to_datetime(daily.Time(), unit = "s", utc = True),
-        end = pd.to_datetime(daily.TimeEnd(), unit = "s", utc = True),
-        freq = pd.Timedelta(seconds = daily.Interval()),
-        inclusive = "left"
-    )}
-    daily_data["weather_code"] = daily_weather_code
-    daily_data["temperature_2m_max"] = daily_temperature_2m_max
-    daily_data["sunrise"] = daily_sunrise
-    daily_data["sunset"] = daily_sunset
-
-    daily_dataframe = pd.DataFrame(data = daily_data)
-    print(daily_dataframe.head(5))
-
-
 if __name__ == '__main__':
     response = get_weather_response(42.4,-71.05)
     print("Hourly---")
     hourly_forecast_df(response)
     print("Daily---")
-    daily_forecast(response)

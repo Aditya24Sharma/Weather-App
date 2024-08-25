@@ -1,6 +1,6 @@
 from flask import Flask,redirect, url_for, request, jsonify, session
 from utils import get_weather_response, hourly_forecast_df, get_location_info, current_time, checkZipCode, getDailyForecast
-
+from collections import OrderedDict
 #creating an instance of the Flask class '__name__' so that Flask knows where to look for resources such as template and static files
 app = Flask(__name__)
 
@@ -12,6 +12,9 @@ app = Flask(__name__)
 #     "daily": ["weather_code", "temperature_2m_max", "temperature_2m_min", "apparent_temperature_max", "apparent_temperature_min", "sunrise", "sunset", "precipitation_sum"],
 #     "temperature_unit": "fahrenheit"
 # } 
+
+#this is required for the ssion to work 
+app.secret_key= '_5#y2L"F4Q8z\n\xec]/'
 
 @app.route('/')
 def redirect_to_home():
@@ -31,6 +34,8 @@ def home():
     location_info = get_location_info(zip_code)
     longitude = location_info['longitude']
     latitude = location_info['latitude']
+    session['latitude'] = latitude
+    session['longitude'] = longitude
     timezone = location_info['standard_timezone']
     locationTime = current_time(location_info['place_timezone'])
     city_name = location_info['primary_city']
@@ -38,7 +43,6 @@ def home():
     state = location_info['state']
 
     response = get_weather_response(latitude, longitude)
-    session['response'] = response
     current = response.Current()
     current_temperature_2m = current.Variables(0).Value()
     current_apparent_temperature = current.Variables(1).Value()
@@ -85,10 +89,12 @@ def hourly_weather():
 @app.route('/daily_forecast')
 def daily_forecast():
     zip_code = session.get('zip_code')
-    response = session.get('response')
+    latitude = session.get('latitude')
+    longitude = session.get('longitude')
+    response = get_weather_response(latitude, longitude)
     daily_forecast = getDailyForecast(response)
-
-    return 0
+    return jsonify(OrderedDict(daily_forecast))
+    
     
 
 
