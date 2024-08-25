@@ -86,7 +86,7 @@ def hourly_weather():
     # return output
     return {"hourly": hourly_forecast}
 
-@app.route('/daily_forecast')
+@app.route('/dailyforecast')
 def daily_forecast():
     zip_code = session.get('zip_code')
     latitude = session.get('latitude')
@@ -94,7 +94,7 @@ def daily_forecast():
     response = get_weather_response(latitude, longitude)
     daily_forecast = getDailyForecast(response)
     return jsonify(OrderedDict(daily_forecast))
-    
+
     
 
 

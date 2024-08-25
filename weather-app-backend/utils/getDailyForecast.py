@@ -17,15 +17,16 @@ def getDailyForecast(response):
     daily_data["Max_Temp"] = daily_temperature_2m_max
     daily_data["Min_Temp"] = daily_temperature_2m_min
     daily_dataframe_pd = pd.DataFrame(data = daily_data)
+    daily_dataframe_pd["weather_code"] = daily_dataframe_pd["weather_code"].apply(lambda x: str(int(x)))
     daily_dataframe_pd["Max_Temp"] = daily_dataframe_pd["Max_Temp"].apply(lambda x: round(x))
     daily_dataframe_pd["Min_Temp"] = daily_dataframe_pd["Min_Temp"].apply(lambda x: round(x))
     daily_dataframe_pd["Date"] = daily_dataframe_pd["date"].apply(lambda x: pd.to_datetime(x).to_pydatetime().strftime("%-m/%d"))
     daily_dataframe_pd["day_of_week"] = daily_dataframe_pd["date"].apply(lambda x: (pd.to_datetime(x).to_pydatetime().strftime("%A"))[:3])
-
+    daily_dataframe_pd["image"] = daily_dataframe_pd["weather_code"].apply(lambda x: str(int(x))+'_day')
     #setting the first day to today
     daily_dataframe_pd.loc[0, "day_of_week"] = "Today"
 
-    dict_daily_forecast = OrderedDict( daily_dataframe_pd[['weather_code', 'Max_Temp', 'Min_Temp', 'Date', 'day_of_week']].set_index('Date').to_dict(orient='index'))
+    dict_daily_forecast = OrderedDict( daily_dataframe_pd[['weather_code', 'Max_Temp', 'Min_Temp', 'Date', 'day_of_week','image']].set_index('Date').to_dict(orient='index'))
 
     return dict_daily_forecast
     
