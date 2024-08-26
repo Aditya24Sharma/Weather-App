@@ -72,18 +72,16 @@ export default function Home() {
     return (
         <div className="flex flex-col
         rounded-xl
-        mx-auto mt-7 w-96
+        mx-auto mt-7 mb-7 w-96
         bg-orange-200 
-        ring-4 ring-gray-500 ring-inset shadow-xl">
-          {/* <form onSubmit={() => backend_fetch(currentZipCode)}> */}
+        ring-4 ring-black ring-inset shadow-xl shadow-slate-400">
             <div className= "flex flex-row mt-6 mx-auto" id = "Input-container">
               <input type='text' placeholder='Zip Code'  onChange={handleInputChange}
               className = "bg-teal-50 p-1 rounded-md ring-1 ring-black" />
               <button type='submit' onClick={() => backend_fetch(currentZipCode)} 
-              className = "inline items-center max-content bg-black text-white rounded-md p-1 ml-2 hover:text-black hover:bg-blue-400">
+              className = "inline items-center max-content bg-black text-white rounded-md p-1 ml-2 hover:text-black hover:bg-gray-600">
                             Search</button>
             </div>
-            {/* {currentZipCode} */}
             {error && <div className="flex rounded-md mx-3 my-3 px-2
                                     bg-red-50
                                     text-center text-red-600 text-xs">{error}</div>}
@@ -101,15 +99,12 @@ export default function Home() {
                   <span className="font-semibold text-2xl text-gray-600"> {currentdata.current_apparent_temp}</span> °F
                 </p>
                 <p className="mx-auto mt-3 text-2xl font-bold text-gray-700">{currentdata.time}</p>
-                {/* <img src = {image_location(currentdata.image)}/> */}
                 {currentdata.image && <img src = {getImage(currentdata.image)} className="mx-auto w-32 h-32"/>}
                 <p className= "mx-auto mb-6 text-3xl text-gray-700 font-bold">{weather_description}</p>
-      
-              {/* </form> */}
             </>)
           }
-          <Link to = '/dailyforecast' className='ml-auto mr-3 mb-3 p-1
-                                                bg-blue-600 rounded-md text-white'>Daily Forecast</Link>
+          <Link to = '/dailyforecast' className='ml-auto mr-4 mb-4 p-1 px-2
+                                                bg-orange-950 rounded-md text-white'>Daily Forecast</Link>
         </div>
       )
 }
