@@ -41,6 +41,7 @@ def home():
     city_name = location_info['primary_city']
     county = location_info['county']
     state = location_info['state']
+    session['location_info'] = location_info
 
     response = get_weather_response(latitude, longitude)
     current = response.Current()
@@ -88,12 +89,15 @@ def hourly_weather():
 
 @app.route('/dailyforecast')
 def daily_forecast():
-    zip_code = session.get('zip_code')
+    zip_code = session.get('zip_code') 
     latitude = session.get('latitude')
     longitude = session.get('longitude')
+    location_info = session.get('location_info')
     response = get_weather_response(latitude, longitude)
-    daily_forecast = getDailyForecast(response)
-    return jsonify(OrderedDict(daily_forecast))
+    daily_forecast = {"location_info": location_info,
+                      "forecast":getDailyForecast(response)}
+
+    return daily_forecast
 
     
 

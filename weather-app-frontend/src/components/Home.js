@@ -1,5 +1,6 @@
 import {React, useState, useEffect} from 'react'
 import weatherdata from '../weather_codes.json'
+import {Link} from 'react-router-dom'
 
 export default function Home() {
     const [currentZipCode, setZipCode] = useState(39406);
@@ -71,7 +72,7 @@ export default function Home() {
     return (
         <div className="flex flex-col
         rounded-xl
-        mx-auto mt-12 w-96
+        mx-auto mt-7 w-96
         bg-orange-200 
         ring-4 ring-gray-500 ring-inset shadow-xl">
           {/* <form onSubmit={() => backend_fetch(currentZipCode)}> */}
@@ -103,9 +104,12 @@ export default function Home() {
                 {/* <img src = {image_location(currentdata.image)}/> */}
                 {currentdata.image && <img src = {getImage(currentdata.image)} className="mx-auto w-32 h-32"/>}
                 <p className= "mx-auto mb-6 text-3xl text-gray-700 font-bold">{weather_description}</p>
+      
               {/* </form> */}
             </>)
           }
+          <Link to = '/dailyforecast' className='ml-auto mr-3 mb-3 p-1
+                                                bg-blue-600 rounded-md text-white'>Daily Forecast</Link>
         </div>
       )
 }
