@@ -1,5 +1,4 @@
 import pandas as pd
-from collections import OrderedDict
 
 def getDailyForecast(response):
     # "daily": ["weather_code", "temperature_2m_max","temperature_2m_min" ,"sunrise", "sunset"],
@@ -26,7 +25,7 @@ def getDailyForecast(response):
     #setting the first day to today
     daily_dataframe_pd.loc[0, "day_of_week"] = "Today"
 
-    dict_daily_forecast = OrderedDict( daily_dataframe_pd[['weather_code', 'Max_Temp', 'Min_Temp', 'Date', 'day_of_week','image']].set_index('Date').to_dict(orient='index'))
+    dict_daily_forecast = daily_dataframe_pd[['weather_code', 'Max_Temp', 'Min_Temp', 'Date', 'day_of_week','image']].set_index('Date').to_dict(orient='index')
 
     return dict_daily_forecast
     

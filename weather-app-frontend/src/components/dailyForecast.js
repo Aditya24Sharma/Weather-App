@@ -38,7 +38,7 @@ function DailyForecast(){
                         <p className="font-bold text-2xl text-gray-600">{details.day_of_week}</p>
                         {details.image && <img src = {getImage(details.image)} className="-mt-3"/>}
                         <p className="text-xs">{weatherDetails?.[details.weather_code]?.day?.description}</p>
-                        <p className="text-m">{details.Max_Temp} --- {details.Min_Temp}</p>
+                        <p className="text-m">{details.Max_Temp}° --- {details.Min_Temp}°</p>
                     </li>
                     )}
                 </ul>

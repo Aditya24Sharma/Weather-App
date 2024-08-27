@@ -1,5 +1,5 @@
 from flask import Flask,redirect, url_for, request, jsonify, session
-from utils import get_weather_response, hourly_forecast_df, get_location_info, current_time, checkZipCode, getDailyForecast
+from utils import get_weather_response, get_location_info, current_time, checkZipCode, getDailyForecast, getHourlyForecast
 from collections import OrderedDict
 #creating an instance of the Flask class '__name__' so that Flask knows where to look for resources such as template and static files
 app = Flask(__name__)
@@ -75,17 +75,15 @@ def home():
 
 
 
-@app.route('/hourly')
+@app.route('/hourlyforecast')
 def hourly_weather():
-
-    response = get_weather_response(42.4,-71.05)
-    hourly_forecast = hourly_forecast_df(response)
-    output = '<p>'
-    for i in range(1, 5):
-        output += f"<p>{hourly_forecast['date'][i]} -> {hourly_forecast['temperature_2m'][i]}" + '</p>' 
-
-    # return output
-    return {"hourly": hourly_forecast}
+    zip_code = session.get('zip_code') 
+    latitude = session.get('latitude')
+    longitude = session.get('longitude')
+    location_info = session.get('location_info')
+    response = get_weather_response(latitude, longitude)
+    return {"location_info": location_info,
+            "forecast":getHourlyForecast(response)}
 
 @app.route('/dailyforecast')
 def daily_forecast():

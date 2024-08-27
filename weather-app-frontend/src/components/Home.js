@@ -94,7 +94,7 @@ export default function Home() {
                                 ring-1 ring-inset ring-green-600/20">{currentdata.primary_city}</div>
                 <p className = "mx-auto mt-3 text-2xl font-bold text-gray-700">{currentdata.state}</p>
                 <p className="mx-auto py-2 px-2 rounded-md
-                            text-gray-700 font-semibold text-7xl">{currentdata.current_temp}</p>
+                            text-gray-700 font-semibold text-7xl">{currentdata.current_temp}°</p>
                 <p id="feels_like" className="mx-auto text-gray-950">feels like 
                   <span className="font-semibold text-2xl text-gray-600"> {currentdata.current_apparent_temp}</span> °F
                 </p>
@@ -104,7 +104,7 @@ export default function Home() {
             </>)
           }
           <Link to = '/dailyforecast' className='ml-auto mr-4 mb-4 p-1 px-2
-                                                bg-orange-950 rounded-md text-white'>Daily Forecast</Link>
+                                                bg-orange-950 rounded-md text-white'>Weekly Forecast</Link>
         </div>
       )
 }
