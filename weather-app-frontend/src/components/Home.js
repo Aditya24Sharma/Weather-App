@@ -103,8 +103,12 @@ export default function Home() {
                 <p className= "mx-auto mb-6 text-3xl text-gray-700 font-bold">{weather_description}</p>
             </>)
           }
-          <Link to = '/dailyforecast' className='ml-auto mr-4 mb-4 p-1 px-2
-                                                bg-orange-950 rounded-md text-white'>Weekly Forecast</Link>
+          <div className='flex flex-row justify-between mx-4 mb-4'>
+            <Link to = '/hourlyforecast' className='p-1 px-2
+                                                  bg-orange-950 rounded-md text-white'>Hourly Forecast</Link>
+            <Link to = '/dailyforecast' className='p-1 px-2
+                                                  bg-orange-950 rounded-md text-white'>Weekly Forecast</Link>
+          </div>
         </div>
       )
 }
