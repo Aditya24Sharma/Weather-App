@@ -47,14 +47,21 @@ function HourlyForecast() {
                     .sort((([a], [b])=> parseInt(a) - parseInt(b))) 
                     .map(([time, details])=>{
                         const isPast = parseInt(time) < currentTimeHr;
+                        const isNow = parseInt (time) === currentTimeHr;
 
                         return (
                             <li key = {time} className={`flex flex-col items-cente rounded-md w-12 items-center shadow-md shadow-slate-600 ring-inset ring-1
                             ${isPast ? 'bg-gray-600 ring-white': 'bg-orange-200 ring-black' }`}>
                                 <div className="my-2">
-                                    <p className={`text-lg text-center ${isPast? 'text-white' : 'text-gray-800'}`}>{details.time_in_12hour}<span className={`text-xs ml-0.5 ${isPast? 'text-gray-300' : 'text-gray-700'}`}>{details.AM_PM}</span></p>
-                                    {/* console.log({'OUTPUT'})
-                                    console.log({details['weather_code']}) */}
+                                    <p className={`text-lg text-center ${isPast? 'text-white' : 'text-gray-800'}`}>
+                                        {time == currentTimeHr ? ('Now'): (
+                                            <>
+                                                {details.time_in_12hour}
+                                                <span className={`text-xs ml-0.5 ${isPast? 'text-gray-300' : 'text-gray-700'}`}>
+                                                    {details.AM_PM}</span>
+                                            </>
+                                        )}
+                                    </p>
                                     <img src = {getImage(details.image)} alt={details.image} className="w-9 h-9"/>
                                     <p className={`text-center text-sm ${isPast? 'text-white' : 'text-black'}`}>{details.temperature}°</p>
                                 </div>
