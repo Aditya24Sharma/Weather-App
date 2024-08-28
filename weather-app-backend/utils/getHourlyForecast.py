@@ -23,7 +23,8 @@ def getHourlyForecast(response):
     hourly_dataframe_pd["time_in_24hour"] = hourly_dataframe_pd["date"].apply(lambda x: pd.to_datetime(x).to_pydatetime().strftime("%H"))
     hourly_dataframe_pd['temperature'] = hourly_dataframe_pd['temperature'].apply(lambda x: round(x))
     hourly_dataframe_pd['apparent_temp'] = hourly_dataframe_pd['apparent_temp'].apply(lambda x: round(x))
-    hourly_dataframe_pd['weather_code'] = hourly_dataframe_pd['weather_code'].apply(lambda x: int(x))
+    hourly_dataframe_pd['weather_code'] = hourly_dataframe_pd['weather_code'].apply(lambda x: x)
+    hourly_dataframe_pd['image'] = hourly_dataframe_pd["weather_code"].apply(lambda x: str(int(x))+('_day'))
     #only sending the hourly data for the hour of that day
     hourly_dict = hourly_dataframe_pd.head(24).set_index('time_in_24hour').to_dict(orient='index')
     return hourly_dict

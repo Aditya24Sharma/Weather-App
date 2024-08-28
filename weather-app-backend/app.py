@@ -82,8 +82,9 @@ def hourly_weather():
     longitude = session.get('longitude')
     location_info = session.get('location_info')
     response = get_weather_response(latitude, longitude)
-    return {"location_info": location_info,
+    hourly_forecast = {"location_info": location_info,
             "forecast":getHourlyForecast(response)}
+    return hourly_forecast
 
 @app.route('/dailyforecast')
 def daily_forecast():
