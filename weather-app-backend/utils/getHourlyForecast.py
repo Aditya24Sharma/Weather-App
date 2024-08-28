@@ -19,7 +19,8 @@ def getHourlyForecast(response):
     hourly_data["precipitation_probability"] = hourly_precipitation_probability
     hourly_data["weather_code"] = hourly_weather_code
     hourly_dataframe_pd = pd.DataFrame(data = hourly_data)
-    hourly_dataframe_pd["time_in_hour"] = hourly_dataframe_pd["date"].apply(lambda x: pd.to_datetime(x).to_pydatetime().strftime("%-I %p"))
+    hourly_dataframe_pd["time_in_12hour"] = hourly_dataframe_pd["date"].apply(lambda x: pd.to_datetime(x).to_pydatetime().strftime("%-I"))
+    hourly_dataframe_pd["AM_PM"] = hourly_dataframe_pd["date"].apply(lambda x: pd.to_datetime(x).to_pydatetime().strftime("%p"))
     hourly_dataframe_pd["time_in_24hour"] = hourly_dataframe_pd["date"].apply(lambda x: pd.to_datetime(x).to_pydatetime().strftime("%H"))
     hourly_dataframe_pd['temperature'] = hourly_dataframe_pd['temperature'].apply(lambda x: round(x))
     hourly_dataframe_pd['apparent_temp'] = hourly_dataframe_pd['apparent_temp'].apply(lambda x: round(x))

@@ -1,6 +1,7 @@
 from flask import Flask,redirect, url_for, request, jsonify, session
 from utils import get_weather_response, get_location_info, current_time, checkZipCode, getDailyForecast, getHourlyForecast
 from collections import OrderedDict
+from datetime import datetime
 #creating an instance of the Flask class '__name__' so that Flask knows where to look for resources such as template and static files
 app = Flask(__name__)
 
@@ -81,9 +82,12 @@ def hourly_weather():
     latitude = session.get('latitude')
     longitude = session.get('longitude')
     location_info = session.get('location_info')
+    locationTime = current_time(location_info['place_timezone'])
+    locationTime_hr = int(datetime.strptime(locationTime, "%H:%M").strftime("%H"))
     response = get_weather_response(latitude, longitude)
     hourly_forecast = {"location_info": location_info,
-            "forecast":getHourlyForecast(response)}
+            "forecast":getHourlyForecast(response),
+            "locationTime_hr": locationTime_hr}
     return hourly_forecast
 
 @app.route('/dailyforecast')
